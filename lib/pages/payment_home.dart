@@ -70,6 +70,7 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
               child: TextField(
+                keyboardType: TextInputType.number,
                 controller: amountController,
                 decoration:
                     const InputDecoration(hintText: "Enter your Amount"),

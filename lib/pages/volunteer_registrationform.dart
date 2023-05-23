@@ -18,6 +18,7 @@ class VolunteerRegs extends StatelessWidget {
   TextEditingController ageData = new TextEditingController();
   TextEditingController genderData = new TextEditingController();
   TextEditingController bloodGroupData = new TextEditingController();
+  TextEditingController projectData = new TextEditingController();
   TextEditingController emailData = new TextEditingController();
   TextEditingController mobileNumberData = new TextEditingController();
   TextEditingController addressData = new TextEditingController();
@@ -692,6 +693,7 @@ class VolunteerRegs extends StatelessWidget {
                         "age": ageData.text,
                         "gender": genderData.text,
                         "blood group": bloodGroupData.text,
+                        "project": projectData.text,
                         "email": emailData.text,
                         "mobile no.": mobileNumberData.text,
                         "address": addressData.text,
@@ -757,6 +759,7 @@ class VolunteerRegs extends StatelessWidget {
       "age": ageData.text,
       "gender": genderData.text,
       "blood group": bloodGroupData.text,
+      "project": projectData,
       "email": emailData.text,
       "mobile": mobileNumberData.text,
       "address": addressData.text,
