@@ -19,8 +19,11 @@ class VolunteerProfile extends StatefulWidget {
 
 class _VolunteerProfileState extends State<VolunteerProfile> {
   var data,
+      first_name,
+      checkRef,
       name,
       email,
+      check_email,
       bloodgroup,
       dob,
       imageUrl,
@@ -43,6 +46,7 @@ class _VolunteerProfileState extends State<VolunteerProfile> {
   void getVolunteersData() {
     FirebaseAuth _auth = FirebaseAuth.instance;
     FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
     final docRef =
         _firestore.collection("volunteers").doc(_auth.currentUser?.email);
     docRef.get().then((DocumentSnapshot doc) {
@@ -50,8 +54,9 @@ class _VolunteerProfileState extends State<VolunteerProfile> {
       imageUrl = data['imageUrl'];
       name = data['name'];
       email = data['email'];
-      dob = data['Date of Birth'];
+      dob = data['dob'];
       age = data['age'];
+      first_name = data['fname'];
       city = data['city'];
       gender = data['gender'];
       address = data['address'];
@@ -60,6 +65,7 @@ class _VolunteerProfileState extends State<VolunteerProfile> {
       nationality = data['nationality'];
       setState(() {});
     });
+    print(first_name);
   }
 
   @override
@@ -236,105 +242,116 @@ class _VolunteerProfileState extends State<VolunteerProfile> {
                     SizedBox(
                       height: 30.0,
                     ),
-                    Text(
-                      "Schedules",
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    Card(
-                      elevation: 3.0,
-                      child: Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Column(
-                          children: <Widget>[
-                            MaterialButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => VolunteerSchedule(),
-                                  ),
-                                );
-                              },
-                              color: Color(0xff0b5d0b),
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
-                              padding: EdgeInsets.all(16),
-                              child: Text(
-                                "Check Schedules",
+                    first_name != null
+                        ? Column(
+                            children: [
+                              Text(
+                                "Schedules",
                                 style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  fontStyle: FontStyle.normal,
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              textColor: Color(0xffffffff),
-                              height: 40,
-                              minWidth: MediaQuery.of(context).size.width,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 30.0,
-                    ),
-                    SizedBox(
-                      height: 30.0,
-                    ),
-                    Text(
-                      "Geo-Tagging",
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    Card(
-                      elevation: 3.0,
-                      child: Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                TextButton(
-                                    onPressed: (() {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
+                              SizedBox(
+                                height: 20.0,
+                              ),
+                              Card(
+                                elevation: 3.0,
+                                child: Padding(
+                                  padding: EdgeInsets.all(16.0),
+                                  child: Column(
+                                    children: <Widget>[
+                                      MaterialButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
                                               builder: (context) =>
-                                                  GetGeoTaggedImage()));
-                                    }),
-                                    child: Text("GeoTagging")),
-                                /* Switch(
-                                   value: turnOnNotification,
-                                  onChanged: (bool value) {
-                                    // print("The value: $value");
-                                    setState(() {
-                                      turnOnNotification = value;
-                                    });
-                                  },),*/
-                              ],
-                            ),
-                            Divider(
-                              height: 10.0,
-                              color: Colors.grey,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                                                  VolunteerSchedule(),
+                                            ),
+                                          );
+                                        },
+                                        color: Color(0xff0b5d0b),
+                                        elevation: 0,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
+                                        ),
+                                        padding: EdgeInsets.all(16),
+                                        child: Text(
+                                          "Check Schedules",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700,
+                                            fontStyle: FontStyle.normal,
+                                          ),
+                                        ),
+                                        textColor: Color(0xffffffff),
+                                        height: 40,
+                                        minWidth:
+                                            MediaQuery.of(context).size.width,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 30.0,
+                              ),
+                              SizedBox(
+                                height: 30.0,
+                              ),
+                              Text(
+                                "Geo-Tagging",
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20.0,
+                              ),
+                              Card(
+                                elevation: 3.0,
+                                child: Padding(
+                                  padding: EdgeInsets.all(16.0),
+                                  child: Column(
+                                    children: <Widget>[
+                                      MaterialButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      GetGeoTaggedImage()));
+                                        },
+                                        color: Color(0xff0b5d0b),
+                                        elevation: 0,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
+                                        ),
+                                        padding: EdgeInsets.all(16),
+                                        child: Text(
+                                          "Geo Tagging",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700,
+                                            fontStyle: FontStyle.normal,
+                                          ),
+                                        ),
+                                        textColor: Color(0xffffffff),
+                                        height: 40,
+                                        minWidth:
+                                            MediaQuery.of(context).size.width,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        : Container()
                     /* Adding to admin page
                     Card(
                       elevation: 3.0,

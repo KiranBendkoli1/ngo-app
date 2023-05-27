@@ -56,45 +56,55 @@ class _AdminVolunteersState extends State<AdminVolunteers> {
               : ListView.builder(
                   itemCount: allVolunteers.length,
                   itemBuilder: ((context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(
-                          top: 4.0, left: 8, right: 8, bottom: 4),
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Image.network(
-                              allVolunteers[index]['imageUrl'],
-                              width: screenWidth / 5,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Row(
+                    return (allVolunteers[index]['fname'] != null)
+                        ? SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 4.0, left: 8, right: 8, bottom: 4),
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(allVolunteers[index]['name']),
-                                    SizedBox(
-                                      width: screenWidth / 12,
+                                    Image.network(
+                                      allVolunteers[index]['imageUrl'],
+                                      width: screenWidth / 5,
                                     ),
-                                    Text("ID : 2")
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                                " ${allVolunteers[index]['fname']} ${allVolunteers[index]['lname']} "),
+                                            SizedBox(
+                                              width: screenWidth / 12,
+                                            ),
+                                            Text(
+                                                "${allVolunteers[index]['email']}")
+                                          ],
+                                        ),
+                                        Text(
+                                            "Assigned Project ID ${allVolunteers[index]['assignedProject']}")
+                                      ],
+                                    ),
+                                    Icon(
+                                      Icons.navigate_next,
+                                      color: Colors.grey.shade500,
+                                    )
                                   ],
                                 ),
-                                Text("Project Assigned"),
-                              ],
+                              ),
                             ),
-                            Icon(
-                              Icons.navigate_next,
-                              color: Colors.grey.shade500,
-                            )
-                          ],
-                        ),
-                      ),
-                    );
+                          )
+                        : Container();
                   }),
                 ),
         ),

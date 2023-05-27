@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:ngo_app/pages/signup_screen.dart';
 import 'package:ngo_app/pages/volunteer_category.dart';
 import 'package:ngo_app/pages/user_homepage.dart';
+import 'package:ngo_app/pages/volunteer_profile.dart';
 
 class VolunteerInfo extends StatelessWidget {
   //const VolunteerInfo({Key? key}) : super(key: key);
@@ -641,24 +642,7 @@ class VolunteerInfo extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(0, 30, 0, 16),
                   child: MaterialButton(
                     onPressed: () {
-                      Map<String, dynamic> data = {
-                        "First Name": firstNameData.text,
-                        "Last Name": lastNameData.text,
-                        "Date of Birth": dobData.text,
-                        "age": ageData.text,
-                        "gender": genderData.text,
-                        "blood group": bloodGroupData.text,
-                        "email": emailData.text,
-                        "mobile no.": mobileNumberData.text,
-                        "address": addressData.text,
-                        "state": stateData.text,
-                        "country": countryData.text,
-                        "pincode": pinCodeData.text,
-                        "nationality": nationalityData.text
-                      };
-                      FirebaseFirestore.instance
-                          .collection("volunteerdata")
-                          .add(data);
+                      uploadVolunteerData(context);
 
                       /*FirebaseFirestore.instance
                           .collection("volunteerdata")
@@ -706,13 +690,13 @@ class VolunteerInfo extends StatelessWidget {
   }
 
   void uploadVolunteerData(BuildContext context) async {
-    await _firestore.collection("volunteerInfo").doc(emailData.text).set({
-      "First Name": firstNameData.text,
-      "Last Name": lastNameData.text,
-      "Date of Birth": dobData.text,
+    await _firestore.collection("volunteers").doc(emailData.text).update({
+      "fname": firstNameData.text,
+      "lname": lastNameData.text,
+      "dob": dobData.text,
       "age": ageData.text,
       "gender": genderData.text,
-      "blood group": bloodGroupData.text,
+      "blood_group": bloodGroupData.text,
       "email": emailData.text,
       "mobile": mobileNumberData.text,
       "address": addressData.text,
@@ -720,6 +704,7 @@ class VolunteerInfo extends StatelessWidget {
       "country": countryData.text,
       "pincode": pinCodeData.text,
       "nationality": nationalityData.text
-    });
+    }).then((value) => Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => VolunteerProfile())));
   }
 }

@@ -39,7 +39,7 @@ class NGOApplication extends StatelessWidget {
             if (snapshot.hasData) {
               print("data ${snapshot.data!.uid}");
               if (snapshot.data!.uid == "cA8bqfYEGTRojL5l00oQOvGHCcF3") {
-                return AdminHomePage();
+                // return AdminHomePage();
               } else {
                 return UserHomePage();
               }

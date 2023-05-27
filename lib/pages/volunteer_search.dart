@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ngo_app/components/add_project.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ngo_app/model/project_model.dart';
@@ -22,9 +24,11 @@ class VolunteerSearch extends StatefulWidget {
 
 class _VolunteerSearchState extends State<VolunteerSearch> {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  User? currentUser = FirebaseAuth.instance.currentUser;
   var allProjects;
   String projectName = "";
   String projectLocation = "";
+  var assignedProjectId;
   int difference = 0;
   void initState() {
     super.initState();
@@ -163,7 +167,7 @@ class _VolunteerSearchState extends State<VolunteerSearch> {
           Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8, top: 5),
             child: SizedBox(
-              height: screenHeight / 5,
+              height: screenHeight / 4,
               child: StreamBuilder<QuerySnapshot>(
                   stream: _firestore.collection('projects').snapshots(),
                   builder: (context, snapshots) {
@@ -228,7 +232,8 @@ class _VolunteerSearchState extends State<VolunteerSearch> {
                                                     )
                                                   : Image.network(
                                                       data['imageUrl'],
-                                                      height: screenHeight / 6,
+                                                      height:
+                                                          screenHeight / 6.5,
                                                       colorBlendMode:
                                                           BlendMode.colorBurn,
                                                     ),
@@ -237,7 +242,35 @@ class _VolunteerSearchState extends State<VolunteerSearch> {
                                                     color: Colors.white),
                                                 child:
                                                     Text(data['projectTitle']),
-                                              )
+                                              ),
+                                              ElevatedButton(
+                                                  onPressed: () async {
+                                                    assignedProjectId =
+                                                        data['projectId'];
+                                                    await _firestore
+                                                        .collection(
+                                                            "volunteers")
+                                                        .doc(currentUser!.email
+                                                            .toString())
+                                                        .update({
+                                                      'assignedProject':
+                                                          assignedProjectId
+                                                    }).then(
+                                                      (value) => Fluttertoast
+                                                          .showToast(
+                                                        msg:
+                                                            "Project is Assigned ${assignedProjectId}",
+                                                        toastLength:
+                                                            Toast.LENGTH_LONG,
+                                                        gravity:
+                                                            ToastGravity.BOTTOM,
+                                                        backgroundColor:
+                                                            Colors.blueGrey,
+                                                        fontSize: 12,
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: Text("Volunteer"))
                                             ],
                                           ),
                                         ),
